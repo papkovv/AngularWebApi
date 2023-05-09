@@ -1,0 +1,90 @@
+<router-outlet></router-outlet>
+<div class="sofTrust">
+
+  <div class="redLine">
+    <p class="writeUs">Напишите нам</p>
+    <div class="rightRedTriangle"></div>
+    <div class="leftRedTriangle"></div>
+  </div>
+
+  <div *ngIf="!edited" class="formElements">
+    <div class="formElement">
+      <p class="text">Ваше имя:</p>
+      <input class=user value="" name="user" size="25" type="text" [(ngModel)]="contactName" required #user="ngModel">
+    </div>
+    <div [hidden]="user.valid || user.untouched" class="alert alert-danger">
+      Не указано имя
+    </div>
+
+    <div class="formElement">
+      <p class="text">Ваш Email:</p>
+      <input class=email value="" name="email" size="25" type="email" [(ngModel)]="contactEmail" required #email="ngModel" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]">
+    </div>
+    <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
+      Некорректный email
+    </div>
+
+    <div class="formElement">
+      <p class="text">Ваш телефон:</p>
+      <input class=phone value="" name="phone" size="25" type="number"  [(ngModel)]="contactPhone" required #phone="ngModel" pattern="[0-9]{10}" >
+    </div>
+    <div [hidden]="phone.valid || phone.untouched" class="alert alert-danger">
+      Некорректный телефон (Введите без +7 или 8)
+    </div>
+
+    <div class="formElement">
+      <p class="text">Тема:</p>
+      <select id="topic" [(ngModel)]="themeId" required>
+        <option value="1">Техподдержка</option>
+        <option value="2">Продажи</option>
+        <option value="3">Контакты</option>
+        <option value="4">Другое</option>
+      </select>
+    </div>
+
+    <div class="formElement">
+      <p class="text">Ваше сообщение:</p>
+      <textarea id="report" name="comment" cols="40" [(ngModel)]="messageObject" required #report="ngModel"></textarea>
+    </div>
+    <div [hidden]="report.valid || report.untouched" class="alert alert-danger">
+      Введите Ваше сообщение
+    </div>
+
+    <div class="captcha" [hidden]="captcha">
+      <re-captcha (resolved)="resolved($event)" siteKey="6Lfi-_ElAAAAAGgynDLis0YIRAKqh4VGDW-2IG4O"></re-captcha>
+    </div>
+    <button [hidden]="!captcha" id="button" (click)="addForm()">Отправить письмо!</button>
+
+    <div *ngIf="!check" class="alert alert-danger">
+      Все поля должны быть корректно заполнены!
+    </div>
+  </div>
+
+  <div *ngIf="edited" class="formElements" >
+    <table>
+      <tbody>
+      <tr>
+        <td>Ваше имя:</td>
+        <td>{{contactName}}</td>
+      </tr>
+      <tr>
+        <td>Ваш Email:</td>
+        <td>{{contactEmail}}</td>
+      </tr>
+      <tr>
+        <td>Ваш телефон:</td>
+        <td>{{contactPhone}}</td>
+      </tr>
+      <tr>
+        <td>Тема:</td>
+        <td>{{themeObject}}</td>
+      </tr>
+      <tr>
+        <td>Ваше сообщение:</td>
+        <td>{{messageObject}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
